@@ -1,0 +1,295 @@
+EVA2_5.1_TABLES
+
+MySQL Shell 8.0.41
+
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 10
+Server version: 8.0.41 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use tbd_eva2;
+Default schema set to `tbd_eva2`.
+Fetching global names, object names from `tbd_eva2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > create table customers(
+                                         -> cust_code varchar(50) primary key
+                                         -> cust_name varchar(100) not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cust_name varchar(100) not null)' at line 3
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > create table customers( customer_code varchar(50) primary key, customer_name varchar(100) not null);
+Query OK, 0 rows affected (0.0232 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > create table products (
+                                         -> item_number varchar(50) primary key,
+                                         -> item_name varchar(100) not null);
+Query OK, 0 rows affected (0.0234 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > create table sales_order(
+                                         -> SO_number int,
+                                         -> item_number varchar(50),
+    ^C                                   -> foreign key (customer_code) references customers(customer_code
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > foreign key (customer_code) references customers(customer_code
+                                         -> foreign key (customer_code) references customers(customer_cod
+                                         -> foreign key (customer_code) references customers(customer_co
+                                         -> foreign key (customer_code) references customers(customer_c
+
+
+MySQL Shell 8.0.41
+
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 11
+Server version: 8.0.41 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use tbd_eva2;\
+Default schema set to `tbd_eva2`.
+Fetching global names, object names from `tbd_eva2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > use tbd_eva2;
+Default schema set to `tbd_eva2`.
+Fetching global names, object names from `tbd_eva2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > show tables;
++--------------------+
+| Tables_in_tbd_eva2 |
++--------------------+
+| banco              |
+| city               |
+| cliente            |
+| country            |
+| customers          |
+| direccioncliente   |
+| producto           |
+| products           |
+| tarjeta            |
+| tarjetacliente     |
+| venta              |
+| venta_detalle      |
++--------------------+
+12 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > desc customers;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| customer_code | varchar(50)  | NO   | PRI | NULL    |       |
+| customer_name | varchar(100) | NO   |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+2 rows in set (0.0037 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > desc products;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| item_number | varchar(50)  | NO   | PRI | NULL    |       |
+| item_name   | varchar(100) | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+2 rows in set (0.0024 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > create table sales_orders(
+                                         -> SO_number int,
+                                         -> item_number varchar(50),
+                                         -> qty_ordered int,
+                                         -> customer_code varchar(50),
+                                         -> primary key (SO_number, item_number),
+                                         -> foreign key (item_number) references products (item_number),
+                                         -> foreign  key (customer_code) references customers (customers_code)
+                                         -> );
+ERROR: 3734 (HY000): Failed to add the foreign key constraint. Missing column 'customers_code' for constraint 'sales_orders_ibfk_2' in the referenced table 'customers'
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > create table sales_orders( SO_number int, item_number varchar(50), qty_ordered int, customer_code varchar(50), primary key (SO_number, item_number), foreign key (item_number) references products (item_number), foreign  key (customer_code) references customers (customer_code) );
+Query OK, 0 rows affected (0.0344 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into customers (customer_code, customer_name) values                                           insert into customers (customer_code, customer_name) values
+                                         -> ('wheel', 'wheelaway cycle center'),
+                                         -> ('etc', 'bikes etcetera'),
+                                         -> ('ibs', 'inter.bicycles sales');
+Query OK, 3 rows affected (0.0085 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into products (item_number, item_name) values
+                                         -> ('2010-0050', 'Formed Handlebar'),
+                                         -> ('1000-1', '20 in. Bicycle'),
+                                         -> ('1001-1', '26 in. Bicycle'),
+                                         -> ('1002-1', '24 in. Bicycle'),
+                                         -> ('1003-1', '20 in. Bicycle'),
+                                         -> ('3961-1041', 'Tire Tube, 26 in.'),
+                                         -> ('3965-1050', 'Spoke Reflector');
+Que^C OK, 7 rows affected (0.0074 sec)      insert into sales_orders (SO_number, item_number,qty_ordered, cu
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number,qty_ordered, cu
+Records: 7  Duplicates: 0  Warnings: 0      insert into sales_orders (SO_number, item_number,qty_ordered, c
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number,qty_ordered,
+
+
+MySQL Shell 8.0.41
+
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.41 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use tbd_eva2;
+Default schema set to `tbd_eva2`.
+Fetching global names, object names from `tbd_eva2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > show tables;
++--------------------+
+| Tables_in_tbd_eva2 |
++--------------------+
+| banco              |
+| city               |
+| cliente            |
+| country            |
+| customers          |
+| direccioncliente   |
+| producto           |
+| products           |
+| sales_orders       |
+| tarjeta            |
+| tarjetacliente     |
+| venta              |
+| venta_detalle      |
++--------------------+
+13 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > desc customers'
+                                         '> ;
+                                         '> desc customers;
+                                         '> ^C
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > desc customers;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| customer_code | varchar(50)  | NO   | PRI | NULL    |       |
+| customer_name | varchar(100) | NO   |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+2 rows in set (0.0022 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > desc products;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| item_number | varchar(50)  | NO   | PRI | NULL    |       |
+| item_name   | varchar(100) | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+2 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > desc sales_orders;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| SO_number     | int         | NO   | PRI | NULL    |       |
+| item_number   | varchar(50) | NO   | PRI | NULL    |       |
+| qty_ordered   | int         | YES  |     | NULL    |       |
+| customer_code | varchar(50) | YES  | MUL | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.0029 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > select * from customers;
++---------------+------------------------+
+| customer_code | customer_name          |
++---------------+------------------------+
+| etc           | bikes etcetera         |
+| ibs           | inter.bicycles sales   |
+| wheel         | wheelaway cycle center |
++---------------+------------------------+
+3 rows in set (0.0101 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > select * from products;
++-------------+-------------------+
+| item_number | item_name         |
++-------------+-------------------+
+| 1000-1      | 20 in. Bicycle    |
+| 1001-1      | 26 in. Bicycle    |
+| 1002-1      | 24 in. Bicycle    |
+| 1003-1      | 20 in. Bicycle    |
+| 2010-0050   | Formed Handlebar  |
+| 3961-1041   | Tire Tube, 26 in. |
+| 3965-1050   | Spoke Reflector   |
++-------------+-------------------+
+7 rows in set (0.0015 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > select * from sales_orders;
+Empty set (0.0065 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item number, qty_ordered, cusr                                   insert into sales_orders (SO_number, item number, qty_ordered, cust                                   insert into sales_orders (SO_number, item number, qty_ordered, cust^C
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item number, qty_ordered,customer_code) values
+                                         -> (1010, '2010-0050', 2, 'WHEEL'),
+                                         -> (1010, '1000-1', 5, 'WHEEL'),
+                                         -> (1011, '1002-1', 6, 'ETC'),
+                                         -> (1011, '1001-1', 10, 'ETC');
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'number, qty_ordered,customer_code) values
+(1010, '2010-0050', 2, 'WHEEL'),
+(1010' at line 1
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item number, qty_ordered,customer_code) values (1010, '2010-0050', 2, 'WHEEL');
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'number, qty_ordered,customer_code) values (1010, '2010-0050', 2, 'WHEEL')' at line 1
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item number, qty_ordered,customer_code) values (1010, '2010-0050', 2, 'WHEEL'));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'number, qty_ordered,customer_code) values (1010, '2010-0050', 2, 'WHEEL'))' at line 1
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1010, '2010-0050', 2, 'WHEEL'));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1010, '2010-0050', 2, 'WHEEL');
+Query OK, 1 row affected (0.0076 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1010, '1000-1', 5, 'WHEEL');
+Query OK, 1 row affected (0.0073 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1011, '1002-1', 6, 'ETC');
+Query OK, 1 row affected (0.0040 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1011, '1001-1', 10, 'ETC');
+Query OK, 1 row affected (0.0139 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1012, '1003-1', 5, 'WHEEL');
+Query OK, 1 row affected (0.0053 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1012, '1001-1', 10, 'WHEEL');
+Query OK, 1 row affected (0.0054 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1013, '1001-1', 50, 'IBS');
+Query OK, 1 row affected (0.0056 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1014, '1003-1', 25, 'ETC');
+Query OK, 1 row affected (0.0071 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1015, '1003-1', 25, 'WHEEL');
+Query OK, 1 row affected (0.0046 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1016, '3961-1041', 5, 'ETC');
+Query OK, 1 row affected (0.0036 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1016, '3965-1050', 50, 'ETC');
+Query OK, 1 row affected (0.0065 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1016, '1003-1', 5, 'ETC');
+Query OK, 1 row affected (0.0064 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1016, '1000-1', 4, 'ETC');
+Query OK, 1 row affected (0.0069 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > select * from sales_orders;
++-----------+-------------+-------------+---------------+
+| SO_number | item_number | qty_ordered | customer_code |
++-----------+-------------+-------------+---------------+
+|      1010 | 1000-1      |           5 | WHEEL         |
+|      1010 | 2010-0050   |           2 | WHEEL         |
+|      1011 | 1001-1      |          10 | ETC           |
+|      1011 | 1002-1      |           6 | ETC           |
+|      1012 | 1001-1      |          10 | WHEEL         |
+|      1012 | 1003-1      |           5 | WHEEL         |
+|      1013 | 1001-1      |          50 | IBS           |
+|      1014 | 1003-1      |          25 | ETC           |
+|      1015 | 1003-1      |          25 | WHEEL         |
+|      1016 | 1000-1      |           4 | ETC           |
+|      1016 | 1003-1      |           5 | ETC           |
+|      1016 | 3961-1041   |           5 | ETC           |
+|      1016 | 3965-1050   |          50 | ETC           |
++-----------+-------------+-------------+---------------+
+13 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1017, '9999-9999', 4, 'ETC');
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`tbd_eva2`.`sales_orders`, CONSTRAINT `sales_orders_ibfk_1` FOREIGN KEY (`item_number`) REFERENCES `products` (`item_number`))
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1016, '1000-1', 10, 'XCFGH');
+ERROR: 1062 (23000): Duplicate entry '1016-1000-1' for key 'sales_orders.PRIMARY'
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL > insert into sales_orders (SO_number, item_number, qty_ordered,customer_code) values (1017, '1000-1', 10, 'XCFGH');
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`tbd_eva2`.`sales_orders`, CONSTRAINT `sales_orders_ibfk_2` FOREIGN KEY (`customer_code`) REFERENCES `customers` (`customer_code`))
+ MySQL  localhost:3306 ssl  tbd_eva2  SQL >
+
+
+
+
+
+
+
+
+
