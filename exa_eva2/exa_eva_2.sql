@@ -1,0 +1,216 @@
+exa_eva_2
+
+
+MySQL Shell 8.0.41
+
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.41 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > create database exa2_tbd;
+Query OK, 1 row affected (0.0167 sec)
+ MySQL  localhost:3306 ssl  SQL > use exa2_tbd;
+Default schema set to `exa2_tbd`.
+Fetching global names, object names from `exa2_tbd` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table alumnos
+                                         -> id_alumnos int auto_increment primary key,
+                                         -> nombre varchar(55) not null,
+                                         -> carrera varchar (100) string;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_alumnos int auto_increment primary key,
+nombre varchar(55) not null,
+carrera' at line 2
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table alumnos ( id_alumnos int auto_increment primary key,  nombre varchar(55) not null, carrera varchar (100) string);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'string)' at line 1
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table alumnos ( id_alumnos int auto_increment primary key,  nombre varchar(55) not null, carrera varchar (100));
+Query OK, 0 rows affected (0.0511 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table cursos (
+                                         -> id_curso int auto_increment primary key,
+                                         -> nombre_curso varchar(100) not null,
+                                         -> creditos int);
+Query OK, 0 rows affected (0.0291 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table inscripciones (
+                                         -> id_inscripcion int auto_increment primary key,
+                                         -> id_alumno int,
+                                         -> id_curso int,
+                                         -> fecha_inscrpicion date,
+                                         -> foreign key (id_alumno) alumnos (id_alumnos)
+                                         -> on delete cascade
+                                         -> on update cascade,
+                                         -> foreign key (id_cursos) cursos (id_curso)
+                                         -> on delete cascade
+                                         -> on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alumnos (id_alumnos)
+on delete cascade
+on update cascade,
+foreign key (id_curso' at line 6
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table inscripciones ( id_inscripcion int auto_increment primary key, id_alumno int,  id_curso int, fecha_inscrpicion date, foreign key (id_alumno) alumnos (id_alumno) on delete cascade on update cascade,  foreign key (id_cursos) cursos (id_curso) on delete cascade  on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alumnos (id_alumno) on delete cascade on update cascade,  foreign key (id_cursos' at line 1
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table inscripciones ( id_inscripcion int auto_increment primary key, id_alumno int,  id_curso int, fecha_inscrpicion date, foreign key (id_alumnos) alumnos (id_alumnos) on delete cascade on update cascade,  foreign key (id_cursos) cursos (id_curso) on delete cascade  on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alumnos (id_alumnos) on delete cascade on update cascade,  foreign key (id_curso' at line 1
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table inscripciones ( id_inscripcion int auto_increment primary key, id_alumnos int,  id_curso int, fecha_inscrpicion date, foreign key (id_alumnos) alumnos (id_alumnos) on delete cascade on update cascade,  foreign key (id_cursos) cursos (id_curso) on delete cascade  on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alumnos (id_alumnos) on delete cascade on update cascade,  foreign key (id_curso' at line 1
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table inscripciones ( id_inscripcion int auto_increment primary key, id_alumnos int,  id_curso int, fecha_inscrpicion date, foreign key (id_alumno) references alumnos (id_alumno) on delete cascade on update cascade,  foreign key (id_cursos) references cursos (id_curso) on delete cascade  on update cascade);
+ERROR: 1072 (42000): Key column 'id_alumno' doesn't exist in table
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table inscripciones ( id_inscripcion int auto_increment primary key, id_alumnos int,  id_curso int, fecha_inscrpicion date, foreign key (id_alumnos) references alumnos (id_alumnos) on delete cascade on update cascade,  foreign key (id_cursos) references cursos (id_curso) on delete cascade  on update cascade);
+ERROR: 1072 (42000): Key column 'id_cursos' doesn't exist in table
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > create table inscripciones ( id_inscripcion int auto_increment primary key, id_alumnos int,  id_curso int, fecha_inscrpicion date, foreign key (id_alumnos) references alumnos (id_alumnos) on delete cascade on update cascade,  foreign key (id_curso) references cursos (id_curso) on delete cascade  on update cascade);
+Query OK, 0 rows affected (0.0521 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into alumnos (nombre, carrera) values
+                                         -> ('Arturo Rubio', 'ISC'),
+                                         -> ('Jesus garcia', 'IGE'),
+                                         -> ('Luis Alvarez', 'Arqui');
+Query OK, 3 rows affected (0.0216 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into cursos (nombre_curso, creditos) values
+                                         -> ('POO','5'),
+                                         -> ('TBDD','4'),
+                                         -> ('Matematicas Avanzadas','4');
+Que^C OK, 3 rows affected (0.0093 sec)      insert into inscripciones (id_alumnos, id_curso, fecha_inscr)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > ^Csert into inscripciones (id_alumnos, id_curso, fecha_inscr)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > ^C
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > ^Csert into inscripciones (id_alumnos, id_curso, fecha_inscro)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > ^C
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into inscripciones (id_alummos, id_curso, fecha inscripcion) values
+
+                                         -> ('1','2','2025-04-05'),
+                                         -> ('2','1','2025-07-09'),
+                                         -> ('1','3','2024-05-07'),
+                                         -> ('3','1','2025-06-04'),
+                                         -> ('2','3','2025-03-17');
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'inscripcion) values
+('1','2','2025-04-05'),
+('2','1','2025-07-09'),
+('1','3','20' at line 1
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into inscripciones (id_alummos, id_curso, fecha_inscripcion) values ('1','2','2025-04-05'), ('2','1','2025-07-09'), ('1','3','2024-05-07'), ('3','1','2025-06-04'), ('2','3','2025-03-17');
+ERROR: 1054 (42S22): Unknown column 'id_alummos' in 'field list'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into inscripciones (id_alumnos, id_curso, fecha_inscripcion) values ('1','2','2025-04-05'), ('2','1','2025-07-09'), ('1','3','2024-05-07'), ('3','1','2025-06-04'), ('2','3','2025-03-17');
+ERROR: 1054 (42S22): Unknown column 'fecha_inscripcion' in 'field list'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into inscripciones (id_alumnos, id_curso, fecha_inscrpcion) values ('1','2','2025-04-05'), ('2','1','2025-07-09'), ('1','3','2024-05-07'), ('3','1','2025-06-04'), ('2','3','2025-03-17');
+ERROR: 1054 (42S22): Unknown column 'fecha_inscrpcion' in 'field list'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into inscripciones (id_alumnos, id_curso, fecha_inscrpicion) values ('1','2','2025-04-05'), ('2','1','2025-07-09'), ('1','3','2024-05-07'), ('3','1','2025-06-04'), ('2','3','2025-03-17');
+Query OK, 5 rows affected (0.0070 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumnos, c.nombre_curso as curso, i.fecha_inscrpicion
+                                         -> from inscripciones i
+                                         -> join alumnos on i.id_alumno = a.id_alumno
+                                         -> join cursos c on i.id_curso = c.id_curso
+                                         -> order by a.nombre, i.fecha_inscripcion;
+ERROR: 1054 (42S22): Unknown column 'a.nombre' in 'field list'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombres as alumnos, c.nombre_curso as curso, i.fecha_inscrpicion from inscripciones i join alumnos on i.id_alumno = a.id_alumno join cursos c on i.id_curso = c.id_curso order by a.nombre, i.fecha_inscripcion;
+ERROR: 1054 (42S22): Unknown column 'a.nombres' in 'field list'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumnos, c.nombre_curso as curso, i.fecha_inscrpicion from inscripciones i join alumnos on i.id_alumno = a.id_alumno join cursos c on i.id_curso = c.id_curso order by a.nombre, i.fecha_inscripcion;
+ERROR: 1054 (42S22): Unknown column 'a.nombre' in 'field list'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumnos, c.nombre_curso as curso, i.fecha_inscrpicion from inscripciones i join alumnos a on i.id_alumno = a.id_alumno join cursos c on i.id_curso = c.id_curso order by a.nombre, i.fecha_inscripcion;
+ERROR: 1054 (42S22): Unknown column 'i.id_alumno' in 'on clause'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumnos, c.nombre_curso as curso, i.fecha_inscrpicion from inscripciones i join alumnos a on i.id_alumnos = a.id_alumnos join cursos c on i.id_curso = c.id_curso order by a.nombre, i.fecha_inscripcion;
+ERROR: 1054 (42S22): Unknown column 'i.fecha^C
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > ^C
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > ^Cumnos join cursos c on i.id_curso = c.id_curso order by a.nombre, i.fecha_inscripcion;
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > ^C
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumnos, c.nombre_curso as curso, i.fecha_inscrpicion from inscripciones i join alumnos a on i.id_alumnos = a.id_alumnos join cursos c on i.id_curso = c.id_curso order by a.nombre, i.fecha_inscrpicion;
+
++--------------+-----------------------+-------------------+
+| alumnos      | curso                 | fecha_inscrpicion |
++--------------+-----------------------+-------------------+
+| Arturo Rubio | Matematicas Avanzadas | 2024-05-07        |
+| Arturo Rubio | TBDD                  | 2025-04-05        |
+| Jesus garcia | Matematicas Avanzadas | 2025-03-17        |
+| Jesus garcia | POO                   | 2025-07-09        |
+| Luis Alvarez | POO                   | 2025-06-04        |
++--------------+-----------------------+-------------------+
+5 rows in set (0.0030 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select c.nombre curso as curso, ifnull (a.nombre, 'ningun inscrito') as alumno                                    select c.nombre curso as curso, ifnull (a.nombre, 'ningun inscrito') as alumno
+                                         -> ^C
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select c.nombre_curso as cursi, ifnull(a.nombre, 'ningun inscrito') as alumno
+                                         -> from cursos c
+                                         -> left join inscrpicones i on c.id_curso = i.id_curso
+                                         -> left join alumnos a on i.id_alumnos = a.id_alumnos
+                                         -> order by c.nombre_curso;
+ERROR: 1146 (42S02): Table 'exa2_tbd.inscrpicones' doesn't exist
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select c.nombre_curso as cursi, ifnull(a.nombre, 'ningun inscrito') as alumno from cursos c left join inscripciones i on c.id_curso = i.id_curso left join alumnos a on i.id_alumnos = a.id_alumnos order by c.nombre_curso;
++-----------------------+--------------+
+| cursi                 | alumno       |
++-----------------------+--------------+
+| Matematicas Avanzadas | Arturo Rubio |
+| Matematicas Avanzadas | Jesus garcia |
+| POO                   | Jesus garcia |
+| POO                   | Luis Alvarez |
+| TBDD                  | Arturo Rubio |
++-----------------------+--------------+
+5 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumno, ifnull(c.nombre_curso, 'no inscrito en cursos') as alumno
+                                         -> from cursos c
+                                         -> left
+                                         -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumno, ifnull(c.nombre_curso, 'no inscrito en cursos') as curso from alumnos a
+                                         -> left join inscripciones i on a.id_alumnos = i.id_alumnos
+                                         -> left join cursos c on i.id_curso = c.id_curso
+                                         -> order by a.nombre;
++--------------+-----------------------+
+| alumno       | curso                 |
++--------------+-----------------------+
+| Arturo Rubio | TBDD                  |
+| Arturo Rubio | Matematicas Avanzadas |
+| Jesus garcia | POO                   |
+| Jesus garcia | Matematicas Avanzadas |
+| Luis Alvarez | POO                   |
++--------------+-----------------------+
+5 rows in set (0.0022 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumno, count (i.id_inscripcion) as cantidad_cursos
+
+                                         -> from alumnos a
+                                         -> left join inscripciones i on a.id_alumnos = i.id_alumnos
+                                         -> group by a.id_alumnos, a.nombre
+                                         -> group by cantidad_cursos desc;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group by cantidad_cursos desc' at line 5
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumno, count (i.id_inscripcion) as cantidad_cursos from alumnos a left join inscripciones i on a.id_alumnos = i.id_alumnos group by a.id_alumnos, a.nombre order by cantidad_cursos desc;
+ERROR: 1630 (42000): FUNCTION exa2_tbd.count does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > select a.nombre as alumno, count(i.id_inscripcion) as cantidad_cursos from alumnos a left join inscripciones i on a.id_alumnos = i.id_alumnos group by a.id_alumnos, a.nombre order by cantidad_cursos desc;
++--------------+-----------------+
+| alumno       | cantidad_cursos |
++--------------+-----------------+
+| Arturo Rubio |               2 |
+| Jesus garcia |               2 |
+| Luis Alvarez |               1 |
++--------------+-----------------+
+3 rows in set (0.0096 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into inscripciones (id_alumno, id_curso, fecha_inscrpicion)
+                                         -> values (999, 1, '2025-09-01')
+                                         -> ;
+ERROR: 1054 (42S22): Unknown column 'id_alumno' in 'field list'
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > insert into inscripciones (id_alumnos, id_curso, fecha_inscrpicion) values (999, 1, '2025-09-01') ;
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`exa2_tbd`.`inscripciones`, CONSTRAINT `inscripciones_ibfk_1` FOREIGN KEY (`id_alumnos`) REFERENCES `alumnos` (`id_alumnos`) ON DELETE CASCADE ON UPDATE CASCADE)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > delete from alumnos where id_alumnos = 1;
+Query OK, 1 row affected (0.0079 sec)
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > alter table inscripciones drop foreign key inscripciones_ibfk_1;
+Query OK, 0 rows affected (0.0275 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > alter table inscripciones drop foreign key inscripciones_ibfk_2;
+Query OK, 0 rows affected (0.0181 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > alter table inscripciones
+                                         -> add constraint fk_alumno
+                                         -> foreign key (id_alumnos) references alumnos(id_alumnos)
+                                         -> on delete cascade;
+Query OK, 3 rows affected (0.0877 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  exa2_tbd  SQL > alter table inscripciones add constraint fk_curso foreign key (id_curso) references cursos(id_curso) on delete cascade;
+Query OK, 3 rows affected (0.0785 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+(i-search)`':
